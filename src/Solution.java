@@ -23,34 +23,65 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Stack;
 
+//class Solution {
+//    public String reverseParentheses(String s) {
+//        HashMap<Integer, Integer> pair = new HashMap<>();
+//        Stack<Integer> stack = new Stack<>();
+//        for(int i = 0; i < s.length(); i ++){
+//            if(s.charAt(i) == '('){
+//                stack.push(i);
+//            }else if(s.charAt(i) == ')'){
+//                int j = stack.pop();
+//                pair.put(i, j);
+//                pair.put(j, i);
+//            }
+//        }
+//
+//        StringBuilder res = new StringBuilder();
+//        int i = 0;
+//        int direction = 1;
+//        while(i < s.length()){
+//            if(s.charAt(i) == '(' || s.charAt(i) == ')') {
+//                direction *= -1;
+//                i = pair.get(i);
+//
+//            }else{
+//                res.append(s.charAt(i));
+//            }
+//            i += direction;
+//        }
+//        return res.toString();
+//    }
+//}
+
+
 class Solution {
-    public String reverseParentheses(String s) {
-        Stack<Integer> stack = new Stack<>();
-        HashMap<Integer, Integer> pair = new HashMap<>();
-
-        for(int i = 0; i < s.length(); i ++){
-            if(s.charAt(i) == '('){
-                stack.push(i);
-            } else if(s.charAt(i) == ')') {
-                int x = stack.pop();
-                pair.put(x, i);
-                pair.put(i, x);
+    public int maximumGain(String s, int x, int y) {
+        class Helper {
+            int helper(String pair, int score, StringBuilder s) {
+                StringBuilder stack = new StringBuilder();
+                int res = 0;
+                for (char c : s.toString().toCharArray()) {
+                    if (c == pair.charAt(1) && !stack.isEmpty() && stack.charAt(stack.length() - 1) == pair.charAt(0)) {
+                        stack.setLength(stack.length() - 1);
+                        res += score;
+                    } else {
+                        stack.append(c);
+                    }
+                }
+                s.setLength(0);
+                s.append(stack);
+                return res;
             }
         }
-        StringBuilder res = new StringBuilder();
-        int i = 0;
-        int dir = 1;
-        while(i < s.length()){
-            if(s.charAt(i) == ')' || s.charAt(i) == '('){
-                i = pair.get(i);
-                dir = dir * -1;
 
-            }else{
-                res.append(s.charAt(i));
-            }
-            i += dir;
-        }
-        return res.toString();
+        Helper helper = new Helper();
+        String pair = x > y ? "ab" : "ba";
+        StringBuilder sBuilder = new StringBuilder(s);
+        int result = 0;
 
+        result += helper.helper(pair, Math.max(x, y), sBuilder);
+        result += helper.helper(new StringBuilder(pair).reverse().toString(), Math.min(x, y), sBuilder);
+        return result;
     }
 }
