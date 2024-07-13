@@ -29,7 +29,6 @@ public class SolutionJuly13 {
                     }
                 }
             }
-
         }
         List<Integer> result = new ArrayList<>();
         for(int i: healths){
@@ -41,10 +40,7 @@ public class SolutionJuly13 {
     }
     public static void main(String[] args){
         SolutionJuly13 sol = new SolutionJuly13();
-        int[] positions = {5, 4, 3, 2, 1};
-        int[] healths = {2, 17, 9, 15, 10};
-        String directions = "RRRRR";
-        System.out.println(sol.survivedRobotsHealths(positions, healths, directions));
+        System.out.println(sol.survivedRobotsHealths(new int[] {5, 4, 3, 2, 1}, new int[]{2, 17, 9, 15, 10}, "RRRRR"));
     }
 
 }
